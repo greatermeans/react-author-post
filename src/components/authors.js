@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import Author from './author'
 
 
 class Authors extends Component {
 
-  renderAuthors () {
+  getBooks () {
     debugger
+    this.props.list.titles.filter((title) => {return title.author_id === author})
+  }
+
+  renderAuthors () {
     return this.props.list.authors.map((author) => {
-      return (
-        <li>{author}</li>
-        )
+      debugger
+        return (
+          <Author key={author} id={author} books={this.getBooks.bind(this)} />
+          )
       })
   }
 
   render() {
-    debugger
     return (
     	<div className='author-list'>
-        <ul>
-   	 		{this.renderAuthors.bind(this)}
-        </ul>
+   	 		{this.renderAuthors()}
     	</div>
     )
   }

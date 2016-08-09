@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import handleSubmit from '../index.js'
+import { handleAuthor } from '../index.js'
 
 class Selector extends Component {
 
@@ -8,8 +7,7 @@ class Selector extends Component {
   	event.preventDefault()
     var authorName = document.querySelector('input').value
     document.querySelector('form').reset()
-    debugger
-    handleSubmit(authorName)
+    handleAuthor(authorName,"authors","ADD_AUTHOR")
   }
   
 

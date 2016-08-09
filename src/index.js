@@ -2,6 +2,31 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
+import {combineReducers} from 'redux';
+
+function authorReducer(state = [], action){
+  switch(action.type){
+    case 'ADD_AUTHOR':
+      return state = state.concat(action.payload)
+    default:
+      return state
+  }
+}
+
+function titleReducer(state = [], action){
+  switch(action.type){
+    case 'ADD_TITLE':
+      debugger
+      return state = state.concat(action.payload)
+    default:
+      return state 
+  }
+}
+
+const reducer = combineReducers({
+	authors: authorReducer, 
+	titles: titleReducer
+});
 
 function createStore(){
     let state;
@@ -15,22 +40,19 @@ function createStore(){
     state = reducer(state, {})
     return { getState, dispatch}
 }
+	
+
 
 const store = createStore(reducer)
 
-const handleSubmit = function (authorName) {
-	debugger
-	store.dispatch({type: 'ADD_AUTHOR', payload: {authors: authorName}})
+
+
+const handleAuthor = function (authorName) {
+	store.dispatch({type: 'ADD_AUTHOR', payload: authorName})
 }
 
-function reducer(state = {authors: []}, action){
-	debugger
-  switch(action.type){
-    case 'ADD_AUTHOR':
-      return state = {authors: state.authors.concat(action.payload.authors)}
-    default:
-      return state
-  }
+const handleTitle = function (bookTitle,author_id) {
+	store.dispatch({type: 'ADD_TITLE', payload: {title: bookTitle, author_id: author_id}})
 }
 
 function render() {
@@ -42,4 +64,4 @@ function render() {
 
 render()
 
-export default handleSubmit
+export {handleAuthor,handleTitle}
