@@ -9,7 +9,6 @@ class Selector extends Component {
     document.querySelector('form').reset()
     handleAuthor(authorName,"authors","ADD_AUTHOR")
   }
-  
 
   render() {
     return (
