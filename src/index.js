@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
-import {combineReducers} from 'redux';
+import {combineReducers, createStore} from 'redux';
+import {Provider} from 'react-redux'
 
-function authorReducer(state = [], action){
+
+function authors(state = [], action){
   switch(action.type){
     case 'ADD_AUTHOR':
       return state = state.concat(action.payload)
@@ -13,55 +15,43 @@ function authorReducer(state = [], action){
   }
 }
 
-function titleReducer(state = [], action){
+function posts(state = [], action){
   switch(action.type){
-    case 'ADD_TITLE':
-      debugger
+    case 'ADD_POST':
       return state = state.concat(action.payload)
     default:
       return state 
   }
 }
 
+function chosenOne(state = null, action){
+  if ((state !== null) && (action.type === 'SELECT_AUTHOR') && (action.payload.id !== state.id)) {
+      return state = action.payload
+    } else if ((state === null) && (action.type === 'SELECT_AUTHOR')){
+      return state = action.payload
+    } else if ((action.type === 'SELECT_AUTHOR') && (action.payload.id === state.id)){
+      return null
+    } else {
+    return state
+  }
+}
+
+
 const reducer = combineReducers({
-	authors: authorReducer, 
-	titles: titleReducer
+	authors, 
+	chosenOne,
+	posts
 });
 
-function createStore(){
-    let state;
-    const getState = () => {
-      return state
-    }
-    const dispatch = (action) => {
-      state = reducer(state, action)
-      render()
-    } 
-    state = reducer(state, {})
-    return { getState, dispatch}
-}
-	
 
-
-const store = createStore(reducer)
-
-
-
-const handleAuthor = function (authorName) {
-	store.dispatch({type: 'ADD_AUTHOR', payload: authorName})
-}
-
-const handleTitle = function (bookTitle,author_id) {
-	store.dispatch({type: 'ADD_TITLE', payload: {title: bookTitle, author_id: author_id}})
-}
+const store = createStore(reducer,window.devToolsExtension && window.devToolsExtension())
 
 function render() {
-	ReactDOM.render(
-  	<App store={store.getState()}/>,
+	ReactDOM.render(<Provider store={store}>
+  		<App/>
+  			</Provider>,
   	document.getElementById('root')
 	);
 }
-
+store.subscribe(render)
 render()
-
-export {handleAuthor,handleTitle}

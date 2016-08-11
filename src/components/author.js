@@ -1,14 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-const Author = () => {
-  return (
-      <div className='author'>
-       <div>{this.props.id}</div>
-        <form id='bookForm' onSubmit={this.addBook.bind(this)}>
-            <input id='bookTitle' type="text" placeholder='add title' />
-        </form>
-      </div>
-    )
-}
+const Author =({name,id,Clicked}) => (
+  <div id= {id} className='author' onClick={Clicked}>
+    <h4>{name} ({id})</h4>
+  </div>
+)
 
 export default Author
